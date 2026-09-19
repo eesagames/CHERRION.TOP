@@ -1,0 +1,182 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (function(){var w=window,s={ps:History.prototype.pushState,rs:History.prototype.replaceState};w.__cherriHs=s;var h=history;try{Object.defineProperty(h,"pushState",{value:s.ps.bind(h),configurable:!0,writable:!0}),Object.defineProperty(h,"replaceState",{value:s.rs.bind(h),configurable:!0,writable:!0})}catch(e){}})();
+    </script>
+    <script>
+      // postbuild rewrites this assignment to the per-build nonce'd worker
+      // filename (lead "/" for the normal build, relative for the SVG build).
+      window.__SW_FILE__ = "/h3igla.js";
+      window.__swRegistration = navigator.serviceWorker
+        ? (function () {
+            var FILE = (window.__SW_FILE__ || "").split("/").pop();
+            var base = function (u) {
+              try {
+                return new URL(u, location.href).pathname.split("/").pop();
+              } catch (e) {
+                return String(u);
+              }
+            };
+            // Every deploy renames the worker script, so a registration left
+            // over from a previous build can never update itself (its script
+            // URL now 404s) and would keep controlling the page forever — on a
+            // CDN nothing tells it to die. Drop any registration whose worker
+            // isn't THIS build's file before registering ours.
+            navigator.serviceWorker
+              .getRegistrations()
+              .then(function (regs) {
+                regs.forEach(function (r) {
+                  var w = r.active || r.waiting || r.installing;
+                  if (w && base(w.scriptURL) !== FILE) r.unregister();
+                });
+              })
+              .catch(function () {});
+            return navigator.serviceWorker
+              .register(window.__SW_FILE__)
+              .then(function (reg) {
+                // If this document loaded WITHOUT the current worker in
+                // control, the proxy sits on a 45s control-timeout before
+                // falling back. That happens on a hard reload, a first visit,
+                // or when a stale worker from a previous deploy still controls
+                // the page while ours installs. Grab control fast: give claim
+                // a short grace window, and if we're still uncontrolled — or
+                // controlled by the WRONG (stale) worker — reload ONCE
+                // (sessionStorage-guarded so we can never loop).
+                function currentControls() {
+                  var c = navigator.serviceWorker.controller;
+                  return !!c && base(c.scriptURL) === FILE;
+                }
+                if (currentControls()) {
+                  sessionStorage.removeItem("__sw_reload");
+                  return reg;
+                }
+                if (sessionStorage.getItem("__sw_reload")) return reg;
+                navigator.serviceWorker.ready.then(function () {
+                  if (currentControls()) return;
+                  var settled = false;
+                  var onCtrl = function () {
+                    if (!currentControls()) return;
+                    settled = true;
+                    navigator.serviceWorker.removeEventListener(
+                      "controllerchange",
+                      onCtrl
+                    );
+                  };
+                  navigator.serviceWorker.addEventListener(
+                    "controllerchange",
+                    onCtrl
+                  );
+                  setTimeout(function () {
+                    navigator.serviceWorker.removeEventListener(
+                      "controllerchange",
+                      onCtrl
+                    );
+                    if (!settled && !currentControls()) {
+                      sessionStorage.setItem("__sw_reload", "1");
+                      location.reload();
+                    }
+                  }, 1200);
+                });
+                return reg;
+              })
+              .catch(function (err) {
+                console.error("[sw] registration failed:", err);
+                return null;
+              });
+          })()
+        : Promise.resolve(null);
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cherri</title>
+    <script src="js/xzwwm8.js"></script>
+    <script src="js/6k285x.js"></script>
+    <!-- fonts.min.js is a byte-identical copy of lumin.min.js under a name
+         filters are less likely to know. Unpinned and without integrity while
+         we test whether the stale pinned build (91KB vs 184KB on @latest) is
+         what breaks domain fetches -- re-pin both once that is settled. -->
+    <script src="js/fonts.min.js"></script>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N7TLL7J3HN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-N7TLL7J3HN");
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&amp;display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Radio+Canada+Big:ital,wght@0,400..700;1,400..700&amp;family=Spline+Sans:wght@300..700&amp;family=TikTok+Sans:opsz,wght@12..36,300..900&amp;family=Vend+Sans:ital,wght@0,300..700;1,300..700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/atom-one-dark.min.css">
+    <link rel="stylesheet" href="css/katex.min.css">
+    <link rel="stylesheet" href="css/texmath.css">
+    <script type="module" src="js/index-Co01Yrko-12d82223.js"></script>
+    <link rel="modulepreload" crossorigin="" href="js/rolldown-runtime-Bhmf7a9N-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/preload-helper-rov5CBGT-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/proxy-runtime-DnstVDGC-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/emoji-picker-s2-0tb2C-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/motion-BI5Omklx-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/createLucideIcon-BXNPlstN-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/useEqualizer-DY5ckkVT-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/arrow-left-CKpNiLYz-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/arrow-right-CPZhFBez-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/billing-CriZOwfI-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/bot-Bvp-8y0f-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/check-Cc9qZE_T-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/chevron-down-CijV4GAc-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/chevron-right-CIxGPIQv-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/clapperboard-DT8KjU93-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/coins-5mh-IIQk-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/copy-D0lgUAPo-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/external-link-Dlxh8rFj-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/assetUrl-CVUwVP6b-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/ws-Bc1I-URF-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/activity-CMODosNT-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/gamepad-2-BGdd6MPH-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/globe-Dt7_hGyI-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/heart-CSiYdwDU-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/house-BC27D6MB-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/lock-CZk2nm58-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/mail-uNtMLp01-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/rotate-cw-djX6CGoi-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/messages-square-ObtM-cSr-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/music-BYKnrRPz-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/palette-CXj33etS-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/music-C87Kp6e1-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/plus-Cz8hN4He-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/puzzle-DfpMANi2-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/refresh-cw-BiIyWOog-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/search-PiFRjLip-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/sparkles-5VqDdS1_-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/star-DNoDfg7B-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/trash-2-DezfVIK4-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/trophy-BgrrHdAI-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/upload-BKJDTAqq-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/user-plus-UNwfjr2V-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/user-Cev5Acyl-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/users-BpY7itfJ-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/x-DZn7FctS-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/react-OpJDxKQv-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/chunk-5KNZJZUH-ChE1VEgM-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/settings-Q4ZtaeUa-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/WallpaperLayer-B_aoWTtW-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/ads-I39czcy2-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/cloudSave-BzpKdJHj-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/dialog-BRI-BKkd-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/wisp-magic-_8t7LEIn-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/popupEvents-B5croIuO-12d82223.js">
+    <link rel="modulepreload" crossorigin="" href="js/riptide-Cftbe2mH-12d82223.js">
+    <link rel="stylesheet" crossorigin="" href="css/index-DL6LwyK3-12d82223.css">
+  </head>
+  <body>
+    <div id="_5grks4j"></div>
+    <script src="js/highlight.min.js"></script>
+    <script src="js/markdown-it.min.js"></script>
+    <script src="js/katex.min.js"></script>
+    <script src="js/auto-render.min.js"></script>
+  <script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3dbdf0a7c9cc23f',t:'MTc4OTg1NTMxMA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; visibility: hidden;"></iframe>
+
+</body></html>
